@@ -1,7 +1,6 @@
 # VideoDecoderSpeedTester
 A project to compare video decoding speeds between the CPU and GPU (CUDA) using FFmpeg APIs.
 
-
 # Command-Line Parameters
 | Params | Description/Options                                                                 |
 |--------|--------------------------------------------------------------------------------------|
@@ -14,10 +13,10 @@ A project to compare video decoding speeds between the CPU and GPU (CUDA) using 
 | `-nf`  | Number of frames to decode or read (default: `300`)                                |
 | `-nt`  | Number of threads (only used with CPU_DECODER); use `0` to utilize all physical cores (default: `0`) |
 
-# Usage Example
+# Usage Example (Windows)
 ## CPU decoder
   <pre><code class="language-bash"> VideoDecoderSpeedTester.exe -dt 0  -nt 10 -sf 20 -nf 200 -i input.mp4 </code></pre>
 ## GPU decoder
-  VideoDecoderSpeedTester.exe -dt 1  -sf 20 -nf 200 -i input.mp4
+  <pre><code class="language-bash"> VideoDecoderSpeedTester.exe -dt 1  -sf 20 -nf 200 -i input.mp4 </code></pre> 
 ## YUV reader
-  VideoDecoderSpeedTester.exe -dt 1 -sf 20 -nf 200 -w 3840 -h 1920 -bd 8 -i input.yuv
+  <pre><code class="language-bash"> VideoDecoderSpeedTester.exe -dt 1 -sf 20 -nf 200 -w 3840 -h 1920 -bd 8 -i input.yuv </code></pre>
