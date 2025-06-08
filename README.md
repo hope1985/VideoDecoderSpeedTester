@@ -1,6 +1,10 @@
 # VideoDecoderSpeedTester
 A project to compare video decoding speeds between the CPU and GPU (CUDA) using FFmpeg APIs.
 
+# Requirements
+- C++17 compatible compiler
+- CUDA 
+
 # Command-Line Parameters
 | Params | Description/Options                                                                 |
 |--------|--------------------------------------------------------------------------------------|
