@@ -16,7 +16,7 @@ A project to compare video decoding speeds between the CPU and GPU (CUDA) using 
 
 # Usage Example
 ## CPU decoder
-  VideoDecoderSpeedTester.exe -dt 0  -nt 10 -sf 20 -nf 200 -i input.mp4
+  <pre><code class="language-bash"> VideoDecoderSpeedTester.exe -dt 0  -nt 10 -sf 20 -nf 200 -i input.mp4 </code></pre>
 ## GPU decoder
   VideoDecoderSpeedTester.exe -dt 1  -sf 20 -nf 200 -i input.mp4
 ## YUV reader
