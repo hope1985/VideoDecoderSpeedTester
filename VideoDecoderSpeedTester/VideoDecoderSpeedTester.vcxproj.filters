@@ -28,7 +28,7 @@
     <ClInclude Include="kernel.cuh">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="helpers.h">
+    <ClInclude Include="yuv_file_helper.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>

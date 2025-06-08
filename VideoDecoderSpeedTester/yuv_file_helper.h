@@ -25,7 +25,6 @@ static void save_yuv420_frame(AVFrame* frame, int width, int height, const std::
     for (int i = 0; i < height / 2; i++) out.write((char*)frame->data[1] + i * frame->linesize[1], width / 2);     // U
     for (int i = 0; i < height / 2; i++) out.write((char*)frame->data[2] + i * frame->linesize[2], width / 2);     // V
     out.close();
-
 }
 
 // Function to open YUV420 file

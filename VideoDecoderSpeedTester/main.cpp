@@ -10,10 +10,12 @@ extern "C" {
 
 #include <iostream>
 #include "kernel.cuh"
-#include "helpers.h"
+#include "yuv_file_helper.h"
 #include <chrono>
 #include <string>
 #include <iomanip>
+
+#define APP_VERSION "1.0.0"
 
 
 #define CPU_DECODER 0
@@ -32,6 +34,9 @@ static int yuv_bd = 8;
 
 static void parse_parameters(int argc, char* argv[]) {
     
+    
+    std::cout << "Version " << APP_VERSION << std::endl;
+
     if (argc > 1)
     {
         std::string arg = argv[1];
@@ -48,8 +53,12 @@ static void parse_parameters(int argc, char* argv[]) {
             cout << "-sf    | " << "Start frame index to decode (or read for YUV file) [default=0]" << endl;
             cout << "-nf    | " << "Number of frames to decode (or read for YUV file) [default=300]" << endl;
             cout << "-nt    | " << "Number of threads (used only for CPU_DECODER); set '0' to use all physical cores [default=0]" << endl;
-			exit(0);
+            exit(0);
         }
+    }
+    else {
+        cout << "Input paramter error. Type '-help' to see the paramter list." << endl;
+        exit(0);
     }
     
     for (int i = 1; i < argc; ++i) {
@@ -257,7 +266,7 @@ int main(int argc, char* argv[]) {
                         //call_cuda_kernel(d_y_plane, frame->width, frame->height, frame->linesize[0]);
 
                         //********************* NOTE ******************************
-                        //Because the pixle format is AV_PIX_FMT_CUDA frame->linesize[1] frame->linesize[1] includes ....
+                        //Because the pixel format is AV_PIX_FMT_CUDA frame->linesize[1] frame->linesize[1] includes ....
                         // ... both U and V data and frame->linesize[2] is zero.
                         //AV_PIX_FMT_CUDA is actually the same as AV_PIX_FMT_NV12 format in which U-V data for each pixel...
                         // ... are stored in one single array next to each other: arrayUV=[U0,V0,U1,V1,...]
