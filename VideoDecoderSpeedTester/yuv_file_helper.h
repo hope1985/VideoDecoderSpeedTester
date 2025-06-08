@@ -39,9 +39,9 @@ static ifstream open_YUV420_file( string filepath, int W, int H, int bd, int sta
 
     ifstream yuv_f(filepath, ios::binary);
 
-    for (int k = 0; k < startFrame; ++k) {
-        yuv_f.seekg(Ybyte + UVbyte, ios::cur);
-    }
+
+    yuv_f.seekg((Ybyte + UVbyte)* startFrame, ios::cur);
+    
     auto s = yuv_f.is_open();
     return yuv_f;
 }

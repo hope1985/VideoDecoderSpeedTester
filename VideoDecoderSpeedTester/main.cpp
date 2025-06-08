@@ -314,7 +314,7 @@ int main(int argc, char* argv[]) {
 
                     }
                     else {
-						//Cool! even with using multi-threaded CPU decoder, the frames are decoded and buffered in the time oder
+						//Cool! even with using multi-threaded CPU decoder, the frames are decoded and buffered in the time order
                         //std::cout << "Decoded frame idx (CPU)=" << frame->pts << "\n"; 
                         
                         //std::string outfilepath = "d:\\frame_GPU_" + std::to_string(current_frame_inedx) + ".yuv";
