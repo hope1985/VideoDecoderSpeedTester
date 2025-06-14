@@ -152,6 +152,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)ffmpeg-7.1.1-full_build-shared\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -173,6 +174,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)ffmpeg-7.1.1-full_build-shared\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -212,14 +214,17 @@ copy /Y "$(TargetPath)" "%TARGET_DIR%\$(ProjectName).exe"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CudaCompile Include="kernel.cu">
+    <CudaCompile Include="dtype_conversion.cu">
       <FileType>Document</FileType>
     </CudaCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="mian_GpuDecoder.cpp" />
+    <ClInclude Include="GpuDecoder.h" />
     <ClInclude Include="yuv_file_helper.h" />
-    <ClInclude Include="kernel.cuh" />
-    <ClCompile Include="main.cpp" />
+    <ClInclude Include="dtype_conversion.cuh" />
+    <ClCompile Include="GpuDecoder.cpp" />
+    <ClCompile Include="main_all.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

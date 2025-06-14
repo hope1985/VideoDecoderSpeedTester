@@ -9,7 +9,7 @@ extern "C" {
 }
 
 #include <iostream>
-#include "kernel.cuh"
+#include "dtype_conversion.cuh"
 #include "yuv_file_helper.h"
 #include <chrono>
 #include <string>
@@ -102,7 +102,7 @@ static enum AVPixelFormat get_hw_format(AVCodecContext* ctx, const enum AVPixelF
     return AV_PIX_FMT_NONE;
 }
 
-int main(int argc, char* argv[]) {
+int main_all(int argc, char* argv[]) {
 
 	parse_parameters(argc, argv);
 	int end_frame_index = start_frame_index + nb_frames;
@@ -149,6 +149,8 @@ int main(int argc, char* argv[]) {
             int current_frame_inedx = start_frame_index;
             auto st = std::chrono::high_resolution_clock::now();
            
+            //ofstream out_yuv_f("outyuv", ios::binary);
+
             while (current_frame_inedx<end_frame_index &&  read_YUV420_frame(yuv_f, Y_img, U_img, V_img, W, H)) {
 
                 //write_yuv420_frame(out_yuv_f, Y_img, U_img, V_img, W, H);

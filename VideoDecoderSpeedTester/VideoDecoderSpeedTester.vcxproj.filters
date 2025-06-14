@@ -15,20 +15,29 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="main_all.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GpuDecoder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mian_GpuDecoder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="kernel.cu">
+    <CudaCompile Include="dtype_conversion.cu">
       <Filter>Source Files</Filter>
     </CudaCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="kernel.cuh">
+    <ClInclude Include="dtype_conversion.cuh">
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="yuv_file_helper.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GpuDecoder.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>

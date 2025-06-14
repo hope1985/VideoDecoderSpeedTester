@@ -68,5 +68,32 @@ static  bool read_YUV420_frame(ifstream& yuv_f, T* y, T* u, T* v, int width, int
 
 }
 
+template<class  T>
+static void write_yuv420_frame(
+    std::ofstream& out,
+    T* y, T* u, T* v,
+    int width,
+    int height
+) {
+    int Ypixels = width * height;
+    int UVpixels = width / 4;
+
+
+    out.write(reinterpret_cast<const char*>(y), Ypixels * sizeof(T));
+    out.write(reinterpret_cast<const char*>(u), UVpixels * sizeof(T));
+    out.write(reinterpret_cast<const char*>(v), UVpixels * sizeof(T));
+}
+
+
+
+static void write_yuv420_AVFrame(std::ofstream& out,AVFrame* frame ) {
+    int width = frame->width;
+    int height = frame->height;
+
+    for (int i = 0; i < height; i++) out.write((char*)frame->data[0] + i * frame->linesize[0], width);             // Y
+    for (int i = 0; i < height / 2; i++) out.write((char*)frame->data[1] + i * frame->linesize[1], width / 2);     // U
+    for (int i = 0; i < height / 2; i++) out.write((char*)frame->data[2] + i * frame->linesize[2], width / 2);     // V
+ 
+}
 
 #endif // !HELPER_H
