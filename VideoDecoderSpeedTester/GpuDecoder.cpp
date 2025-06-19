@@ -113,10 +113,12 @@ bool GpuDecoder::decode_next_frame(AVFrame* output_frame) {
                     //convert_nv12_to_yuv_float(frame_, (float*)devY, (float*)devU, (float*)devV);
                     convert_nv12_10bit_yuv420_10bit_le(frame_, (uint8_t*)devY, (uint8_t*)devU, (uint8_t*)devV);
                     
-                    int y_size = frame_->width * frame_->height;
-                    int uv_size = (frame_->width / 2) * (frame_->height / 2);
 
                     //=========== For test
+                    /*int y_size = frame_->width * frame_->height;
+                    int uv_size = (frame_->width / 2) * (frame_->height / 2);
+
+                    
                     DTYPE* hostY = new DTYPE[y_size];
                     DTYPE* hostU = new DTYPE[uv_size];
                     DTYPE* hostV = new DTYPE[uv_size];
@@ -125,18 +127,18 @@ bool GpuDecoder::decode_next_frame(AVFrame* output_frame) {
                     cudaMemcpy(hostU, devU, uv_size * sizeof(DTYPE), cudaMemcpyDeviceToHost);
                     cudaMemcpy(hostV, devV, uv_size * sizeof(DTYPE), cudaMemcpyDeviceToHost);
                     
-                   /* auto s = std::string("d:\\output") + std::string(".yuv");
+                    auto s = std::string("d:\\output") + std::string(".yuv");
                     FILE* fp = fopen(s.c_str(), "wb");
                     if (!fp) {
                         perror("Cannot open file for writing");
                         
-                    }*/
+                    }
 
                     //Write in planar order: Y -> U -> V
                     //fwrite(hostY, sizeof(DTYPE), y_size, fp);
                     //fwrite(hostU, sizeof(DTYPE), uv_size, fp);
                     //fwrite(hostV, sizeof(DTYPE), uv_size, fp);
-                    //fclose(fp);   
+                    //fclose(fp);  */ 
                     
                     // ======== COPY FRAME FROM GPU TO CPU ========
                     /*if (av_hwframe_transfer_data(sw_frame_, frame_, 0) < 0) {
@@ -156,6 +158,8 @@ bool GpuDecoder::decode_next_frame(AVFrame* output_frame) {
                           fwrite((DTYPE*)sw_frame_->data[1] + uls+i * uls, sizeof(DTYPE), sw_frame_->width, fp2);
                       }
                       fclose(fp2);*/
+
+
                     // ======== CONVERT FRAME FORMAT TO AV_PIX_FMT_YUV420P ========
                     /*sws_ctx_ = sws_getContext(
                         sw_frame_->width,
