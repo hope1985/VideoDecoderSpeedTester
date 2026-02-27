@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main_all.cpp">
+    <ClCompile Include="main_TestDecoder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GpuDecoder.cpp">
@@ -53,6 +53,9 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="YUVMemoryStream.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,6 +12,9 @@ extern "C" {
 #include <string>
 #include <iostream>
 #include "dtype_conversion.cuh"
+#include "Common.h"
+
+
 class GpuDecoder {
 public:
     GpuDecoder();

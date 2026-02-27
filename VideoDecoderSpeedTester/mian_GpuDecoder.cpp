@@ -10,7 +10,10 @@
 #include <fstream>
 #include "GpuDecoder.h" // Your custom class
 #include "yuv_file_helper.h" // Your custom helper functions
-int main1() {
+
+
+#ifdef USE_SINGLE_THREAD_GPU_DECODER_CLASS
+int main() {
     GpuDecoder decoder;
 
     if (!decoder.open(0,"C:\\test_mp4\\DrivingInCountry_3840x1920_30fps_8bit_420_erp_crf18.mp4")) {
@@ -32,7 +35,7 @@ int main1() {
 }
 
 
-int main3() {
+int main1() {
 
 
     // List of input files (use different ones or the same for testing)
@@ -170,3 +173,5 @@ int main3() {
 
     return 0;
 }
+
+#endif

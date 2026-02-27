@@ -17,6 +17,8 @@ extern "C" {
 #include "dtype_conversion.cuh"
 #include <thread>
 #include <atomic>
+
+#include "Common.h"
 class GpuDecoderMT {
 public:
     GpuDecoderMT();

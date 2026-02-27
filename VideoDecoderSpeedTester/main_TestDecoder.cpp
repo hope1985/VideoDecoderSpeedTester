@@ -15,8 +15,8 @@ extern "C" {
 #include <string>
 #include <iomanip>
 
-#define APP_VERSION "1.0.0"
 
+#include "Common.h"
 
 #define CPU_DECODER 0
 #define GPU_DECODER 1
@@ -102,10 +102,15 @@ static enum AVPixelFormat get_hw_format(AVCodecContext* ctx, const enum AVPixelF
     return AV_PIX_FMT_NONE;
 }
 
-int main_all(int argc, char* argv[]) {
+#ifdef TEST_FFMPEG_DECODER
+int main(int argc, char* argv[]) {
 
+    std::string outfolderpath = "D:\\OUT_GPU_DECODER";
+
+    //inputfilepath  = "D:\\TEST_VIDEOS\\DrivingInCountry_3840x1920_30fps_8bit_420_erp_crf18.mp4";
 	parse_parameters(argc, argv);
-	int end_frame_index = start_frame_index + nb_frames;
+	
+    int end_frame_index = start_frame_index + nb_frames;
     if (use_hardware_decoder == CPU_DECODER)
     {
         std::cout << "Use CPU decoder...\n";
@@ -120,71 +125,76 @@ int main_all(int argc, char* argv[]) {
     }
 
 
-        if (use_hardware_decoder != CPU_DECODER && use_hardware_decoder != GPU_DECODER)
-        {
+	//This is just a YUV reader, not a decoder, it is used to read raw YUV frames and measure the reading speed. It is used as a baseline to compare with the CPU and GPU decoders. It can read YUV420 files with 8 or 10 bit depth. 
+    // The file path, width, height, bit depth, start frame index, and number of frames to read can be specified in the input parameters.    
+    if (use_hardware_decoder != CPU_DECODER && use_hardware_decoder != GPU_DECODER)
+    {
 
-            //string yuvfilepath = "C:\\TEST_YUV\\ffmpeg-7.1.1-full_build\\bin\\DrivingInCountry_3840x1920_30fps_8bit_420_erp.yuv";
-			string yuvfilepath = inputfilepath;
-            
-            int W = yuv_w;
-            int H = yuv_h;
-            int bd = yuv_bd;
+        //string yuvfilepath = "D:\\TEST_YUV\\ffmpeg-7.1.1-full_build\\bin\\DrivingInCountry_3840x1920_30fps_8bit_420_erp.yuv";
+        string yuvfilepath = inputfilepath;
 
-            //C++ 17 or higher
-            using DTYPE = unsigned char;
-            if (yuv_bd == 10) {
-                using DTYPE = unsigned short;
-            }
+        int W = yuv_w;
+        int H = yuv_h;
+        int bd = yuv_bd;
 
-            ifstream yuv_f = open_YUV420_file(yuvfilepath, W, H, yuv_bd, start_frame_index);
-
-            DTYPE* Y_img = (DTYPE*)_aligned_malloc(W * H * sizeof(DTYPE), 32);
-            DTYPE* U_img = (DTYPE*)_aligned_malloc(W / 2 * H / 2 * sizeof(DTYPE), 32);
-            DTYPE* V_img = (DTYPE*)_aligned_malloc(W / 2 * H / 2 * sizeof(DTYPE), 32);
-
-            //DTYPE* Y_img = (DTYPE*)malloc(W * H * sizeof(DTYPE));
-            //DTYPE* U_img = (DTYPE*)malloc(W / 2 * H / 2 * sizeof(DTYPE));
-            //DTYPE* V_img = (DTYPE*)malloc(W / 2 * H / 2 * sizeof(DTYPE));
-
-            int current_frame_inedx = start_frame_index;
-            auto st = std::chrono::high_resolution_clock::now();
-           
-            //ofstream out_yuv_f("outyuv", ios::binary);
-
-            while (current_frame_inedx<end_frame_index &&  read_YUV420_frame(yuv_f, Y_img, U_img, V_img, W, H)) {
-
-                //write_yuv420_frame(out_yuv_f, Y_img, U_img, V_img, W, H);
-                //auto et = std::chrono::high_resolution_clock::now();
-                //auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(et - st).count() / 1000.0;
-                //std::cout << "decoded time=" << current_frame_inedx << ", " << duration << " sec" << std::endl;
-
-                current_frame_inedx ++;
-
-            }
-            auto et = std::chrono::high_resolution_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(et - st).count() / 1000.0;
-            std::cout << "Number of decoded frames=" << current_frame_inedx - start_frame_index << std::endl;
-            std::cout << "Average decoding time = " << std::setprecision(4) << (current_frame_inedx - start_frame_index) / duration << " fps" << std::endl;
-
-            return 0;
+        //C++ 17 or higher
+        using DTYPE = unsigned char;
+        if (yuv_bd == 10) {
+            using DTYPE = unsigned short;
         }
 
-    //string hevcfilepath = "C:\\TEST_YUV\\ffmpeg-7.1.1-full_build\\bin\\DrivingInCountry_3840x1920_30fps_8bit_420_erp_crf18.mp4";
-    string hevcfilepath = inputfilepath;
+        ifstream yuv_f = open_YUV420_file(yuvfilepath, W, H, yuv_bd, start_frame_index);
 
-	//GPU or CPU decoder.....
+        DTYPE* Y_img = (DTYPE*)_aligned_malloc(W * H * sizeof(DTYPE), 32);
+        DTYPE* U_img = (DTYPE*)_aligned_malloc(W / 2 * H / 2 * sizeof(DTYPE), 32);
+        DTYPE* V_img = (DTYPE*)_aligned_malloc(W / 2 * H / 2 * sizeof(DTYPE), 32);
+
+        //DTYPE* Y_img = (DTYPE*)malloc(W * H * sizeof(DTYPE));
+        //DTYPE* U_img = (DTYPE*)malloc(W / 2 * H / 2 * sizeof(DTYPE));
+        //DTYPE* V_img = (DTYPE*)malloc(W / 2 * H / 2 * sizeof(DTYPE));
+
+        int current_frame_inedx = start_frame_index;
+        auto st = std::chrono::high_resolution_clock::now();
+
+        //ofstream out_yuv_f("outyuv", ios::binary);
+
+        while (current_frame_inedx < end_frame_index && read_YUV420_frame(yuv_f, Y_img, U_img, V_img, W, H)) {
+
+            //write_yuv420_frame(out_yuv_f, Y_img, U_img, V_img, W, H);
+            //auto et = std::chrono::high_resolution_clock::now();
+            //auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(et - st).count() / 1000.0;
+            //std::cout << "decoded time=" << current_frame_inedx << ", " << duration << " sec" << std::endl;
+
+            current_frame_inedx++;
+
+        }
+        auto et = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(et - st).count() / 1000.0;
+        std::cout << "Number of decoded frames=" << current_frame_inedx - start_frame_index << std::endl;
+        std::cout << "Average decoding time = " << std::setprecision(4) << (current_frame_inedx - start_frame_index) / duration << " fps" << std::endl;
+
+        return 0;
+    }
+
+
+    string compressed_filepath = inputfilepath;
+    //string compressed_filepath = inputfilepath;
+
+
     AVFormatContext* fmt_ctx = nullptr;
-    int ret = avformat_open_input(&fmt_ctx, hevcfilepath.c_str(), nullptr, nullptr);
-    if (ret < 0) {
+
+	//1- Open the input file and create a AVFormatContext for it. 
+    if (avformat_open_input(&fmt_ctx, compressed_filepath.c_str(), nullptr, nullptr) < 0) {
         std::cout << "Cannot open the video file.\n";
         return -1;
     }
-    ret = avformat_find_stream_info(fmt_ctx, nullptr);
-    if (ret < 0) {
+	//2- Identify the information of all streams (audio, video, subtitle,....) from the opened file and get the stream information. 
+    if (avformat_find_stream_info(fmt_ctx, nullptr) < 0) {
         std::cout << "Cannot find the stream.\n";
 		return -1;
     }
 
+    //3- Find the indext of video stream
     int video_stream_index = av_find_best_stream(fmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
     //OR
     /*int video_stream_index = -1;
@@ -194,33 +204,30 @@ int main_all(int argc, char* argv[]) {
             break;
         }
     }*/
-
     if (video_stream_index < 0) {
         std::cerr << "Could not find video stream in file.\n";
         return -1;
     }
 
-	//Start timing the decoding process
-    auto st = std::chrono::high_resolution_clock::now();
-
-	AVBufferRef* hw_device_ctx = nullptr;  //This is used if use_hardware_decoder is true
-    const AVCodec* decoder = nullptr;
-
-    AVStream* stream = fmt_ctx->streams[video_stream_index];
-    decoder = avcodec_find_decoder(stream->codecpar->codec_id);
+	//4- Find the decoder for the video stream
+    const AVCodec* decoder  = avcodec_find_decoder(fmt_ctx->streams[video_stream_index]->codecpar->codec_id);
     //OR
     //AVCodecParameters* codecpar = fmt_ctx->streams[video_stream_index]->codecpar;
     //decoder = avcodec_find_decoder(codecpar->codec_id);
-   
     if (!decoder) {
         std::cerr << "Decoder not found.\n";
         return -1;
     }
 
-    AVCodecContext* codec_ctx = avcodec_alloc_context3(decoder);
-    avcodec_parameters_to_context(codec_ctx, stream->codecpar);
 
-    //Use GPU
+	//5- Create a codec (decoder) context (AVCodecContext) 
+    AVCodecContext* codec_ctx = avcodec_alloc_context3(decoder);
+	
+    //6- set the parameters video stream to the codec context
+    avcodec_parameters_to_context(codec_ctx, fmt_ctx->streams[video_stream_index]->codecpar);
+
+	//7- Create a hardware device context if GPU_DECODER is selected and associate it with the codec context.
+    AVBufferRef* hw_device_ctx = nullptr; //This is used if "use_hardware_decoder" is true    
     if (use_hardware_decoder==GPU_DECODER) {
         if (av_hwdevice_ctx_create(&hw_device_ctx, AV_HWDEVICE_TYPE_CUDA, nullptr, nullptr, 0) < 0) {
             std::cerr << "Failed to create CUDA device.\n";
@@ -231,10 +238,11 @@ int main_all(int argc, char* argv[]) {
     }
     else
     {
-        codec_ctx->thread_count = nb_threads;             // or 0 to let FFmpeg choose
+        codec_ctx->thread_count = nb_threads;      // or 0 to let FFmpeg choose
         codec_ctx->thread_type = FF_THREAD_FRAME; //best for Intra only [other option: FF_THREAD_SLICE]
     }
 
+	//8- Open the codec context 
     if (avcodec_open2(codec_ctx, decoder, nullptr) < 0) {
         std::cerr << "Failed to open codec.\n";
         return -1;
@@ -245,7 +253,7 @@ int main_all(int argc, char* argv[]) {
     AVFrame* sw_frame = av_frame_alloc();
 
     //Seek an optional frame
-    int64_t target_pts = av_rescale_q(start_frame_index, { 1, stream->r_frame_rate.num }, stream->time_base);
+    int64_t target_pts = av_rescale_q(start_frame_index, { 1,  fmt_ctx->streams[video_stream_index]->r_frame_rate.num }, fmt_ctx->streams[video_stream_index]->time_base);
     av_seek_frame(fmt_ctx, video_stream_index, target_pts, AVSEEK_FLAG_BACKWARD);
 
     // Create output frame (YUV420P)
@@ -256,10 +264,17 @@ int main_all(int argc, char* argv[]) {
     av_frame_get_buffer(yuv420p_frame, 32);  // aligned buffer
 
     int current_frame_inedx = start_frame_index;
+
+
+    //Start timing the decoding process
+    auto st = std::chrono::high_resolution_clock::now();
+
+	//9- Read packets from the video stream, send them to the decoder, and receive decoded frames until the specified number of frames is decoded. If GPU decoder is used, the decoded frames are on GPU memory and need to be transferred to CPU memory before saving or further processing.
     while (av_read_frame(fmt_ctx, pkt) >= 0 && current_frame_inedx < end_frame_index) {
         if (pkt->stream_index == video_stream_index) {
             if (avcodec_send_packet(codec_ctx, pkt) == 0) {
                 while (avcodec_receive_frame(codec_ctx, frame) == 0 && current_frame_inedx < end_frame_index) {
+                    
                     // If the frame is on GPU memory, move it to CPU
                     if (frame->format == AV_PIX_FMT_CUDA) {
                         
@@ -307,31 +322,28 @@ int main_all(int argc, char* argv[]) {
                             yuv420p_frame->linesize);
 
 						
-                        //std::cout << "Decoded frame idx (GPU->CPU)="<< current_frame_inedx <<"\n";
-                        //std::string outfilepath = "d:\\gpu_frames\\frame_GPU_" + std::to_string(current_frame_inedx) + ".yuv";
-                        //save_yuv420_frame(yuv420p_frame, yuv420p_frame->width, yuv420p_frame->height, outfilepath);
+                        std::cout << "Decoded frame idx (GPU->CPU)="<< current_frame_inedx <<"\n";
+                        std::string outfilepath = outfolderpath + "\\frame_GPU_" + std::to_string(current_frame_inedx) + ".yuv";
+                        save_yuv420_frame(yuv420p_frame, yuv420p_frame->width, yuv420p_frame->height, outfilepath);
+                        
                         sws_freeContext(sws_ctx);
-
                         //return 0;
 
                     }
                     else {
 						//Cool! even with using multi-threaded CPU decoder, the frames are decoded and buffered in the time order
-                        //std::cout << "Decoded frame idx (CPU)=" << frame->pts << "\n"; 
-                        
-                        //std::string outfilepath = "d:\\frame_GPU_" + std::to_string(current_frame_inedx) + ".yuv";
-                        //save_yuv420_frame(frame, frame->width, frame->height,outfilepath);
-                        
+                        std::cout << "Decoded frame idx (CPU)=" << frame->pts << "\n";                       
+                        std::string outfilepath = outfolderpath+"\\frame_GPU_" + std::to_string(current_frame_inedx) + ".yuv";
+                        outfolderpath +"\\frame_CPU_" + std::to_string(current_frame_inedx) + ".yuv";
+                        save_yuv420_frame(frame, frame->width, frame->height,outfilepath);  
                         //return 0;
                         
                     }
-                    //auto et = std::chrono::high_resolution_clock::now();
-                    //auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(et - st).count() / 1000.0;
-                    //std::cout << "decoded time=" << current_frame_inedx <<", " << duration <<" sec" << std::endl;
+                    auto et = std::chrono::high_resolution_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(et - st).count() / 1000.0;
+                    std::cout << "decoded time=" << current_frame_inedx <<", " << duration <<" sec" << std::endl;
                     
-
                     current_frame_inedx++;
-                    
                 }
             }
         }
@@ -352,3 +364,4 @@ int main_all(int argc, char* argv[]) {
 
     return 0;
 }
+#endif

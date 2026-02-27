@@ -18,6 +18,8 @@
 #include <cstdint>
 #include <cstring> // for memcpy
 #include "YUVMemoryStream.h"
+
+#ifdef USE_MULTI_THREAD_GPU_DECODER_CLASS
 int main() {
 
 
@@ -267,3 +269,4 @@ int main() {
 
     return 0;
 }
+#endif
