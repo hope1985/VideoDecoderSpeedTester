@@ -219,8 +219,13 @@ copy /Y "$(TargetPath)" "%TARGET_DIR%\$(ProjectName).exe"</Command>
     </CudaCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GpuDecoderMT.cpp" />
     <ClCompile Include="mian_GpuDecoder.cpp" />
+    <ClCompile Include="mian_GpuDecoderMT.cpp" />
+    <ClCompile Include="YUVMemoryStream.cpp" />
     <ClInclude Include="GpuDecoder.h" />
+    <ClInclude Include="GpuDecoderMT.h" />
+    <ClInclude Include="YUVMemoryStream.h" />
     <ClInclude Include="yuv_file_helper.h" />
     <ClInclude Include="dtype_conversion.cuh" />
     <ClCompile Include="GpuDecoder.cpp" />

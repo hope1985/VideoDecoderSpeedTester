@@ -24,6 +24,15 @@
     <ClCompile Include="mian_GpuDecoder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GpuDecoderMT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mian_GpuDecoderMT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="YUVMemoryStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="dtype_conversion.cu">
@@ -38,6 +47,12 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="GpuDecoder.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GpuDecoderMT.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="YUVMemoryStream.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>

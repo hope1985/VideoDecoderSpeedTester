@@ -14,5 +14,5 @@ extern "C" {
 void convert_nv12_8bit_yuv420_8bit(AVFrame* frame, uint8_t* d_yf, uint8_t* d_uf, uint8_t* d_vf);
 void convert_nv12_10bit_yuv420_10bit_le(AVFrame* frame, uint8_t* d_yf, uint8_t* d_uf, uint8_t* d_vf);
 
-void init_cuda_memory(void** buf,   int w,  int h, int pixel_size);
+void init_cuda_memory(void** buf, int w, int h, int pixel_size);
 void free_cuda_memory(void** buf);

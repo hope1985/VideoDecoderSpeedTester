@@ -32,28 +32,28 @@ int main1() {
 }
 
 
-int main() {
+int main3() {
 
 
     // List of input files (use different ones or the same for testing)
     
  std::vector<std::string> input_files = {
-        "C:\\test_mp4\\content\\v1_texture_4096x2048_yuv420p10le.mp4",
-        "C:\\test_mp4\\content\\v2_texture_4096x2048_yuv420p10le.mp4",
-        "C:\\test_mp4\\content\\v3_texture_4096x2048_yuv420p10le.mp4",
-        "C:\\test_mp4\\content\\v4_texture_4096x2048_yuv420p10le.mp4",
-        "C:\\test_mp4\\content\\v5_texture_4096x2048_yuv420p10le.mp4",
-        "C:\\test_mp4\\content\\v0_texture_4096x2048_yuv420p10le.mp4",
+        "C:\\test_mp4\\content\\v1_texture_4096x2048_yuv420p10le-qp32-ldp-18.mp4",
+        "C:\\test_mp4\\content\\v2_texture_4096x2048_yuv420p10le-qp32-ldp-18.mp4",
+        "C:\\test_mp4\\content\\v3_texture_4096x2048_yuv420p10le-qp32-ldp-18.mp4",
+        "C:\\test_mp4\\content\\v4_texture_4096x2048_yuv420p10le-qp32-ldp-18.mp4",
+       // "C:\\test_mp4\\content\\v5_texture_4096x2048_yuv420p10le-qp32-ldp-18.mp4",
+      //  "C:\\test_mp4\\content\\v0_texture_4096x2048_yuv420p10le-qp32-ldp-18.mp4",
     }; 
 
    // List of input files (use different ones or the same for testing)
    /* std::vector<std::string> input_files = {
-        "content\\v1_texture_4096x2048_yuv420p10le.mp4",
-        "content\\v2_texture_4096x2048_yuv420p10le.mp4",
-        "content\\v3_texture_4096x2048_yuv420p10le.mp4",
-        "content\\v4_texture_4096x2048_yuv420p10le.mp4",
-        "content\\v5_texture_4096x2048_yuv420p10le.mp4",
-        "content\\v0_texture_4096x2048_yuv420p10le.mp4",
+        "content\\v1_texture_4096x2048_yuv420p10le-qp32-ldp-18.mp4.mp4",
+        "content\\v2_texture_4096x2048_yuv420p10le-qp32-ldp-18.mp4.mp4",
+        "content\\v3_texture_4096x2048_yuv420p10le-qp32-ldp-18.mp4.mp4",
+        "content\\v4_texture_4096x2048_yuv420p10le-qp32-ldp-18.mp4.mp4",
+        "content\\v5_texture_4096x2048_yuv420p10le-qp32-ldp-18.mp4.mp4",
+        "content\\v0_texture_4096x2048_yuv420p10le-qp32-ldp-18.mp4.mp4",
     };%/
 
     // List of input files (use different ones or the same for testing)
